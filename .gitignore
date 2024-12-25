@@ -2,7 +2,3 @@ __pycache__
 # 忽略checkpoints下的所有文件，但保留该目录
 checkpoints/*
 weights/*
-
-需要首先下载模型预训练权重在 weights 文件夹下。
-
-运行训练代码时，生成的模型权重会保存在 checkpoints 文件夹下（需要先创建checkpoints文件夹）。
