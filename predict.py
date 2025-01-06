@@ -5,18 +5,23 @@ from model import GPTModel
 from tools import text_to_token_ids, token_ids_to_text, generate
 from config import model_names, BASE_CONFIG, model_configs
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "4, 7"
+
 CHOOSE_MODEL = "gpt2-small"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 gpt_hf = GPT2Model.from_pretrained(model_names[CHOOSE_MODEL], cache_dir="checkpoints")
 gpt_hf.eval()
+print(gpt_hf)
 
 BASE_CONFIG.update(model_configs[CHOOSE_MODEL])
 
 def assign_check(left, right):
     if left.shape != right.shape:
         raise ValueError(f"Shape mismatch. Left: {left.shape}, Right: {right.shape}")
-    return torch.nn.Parameter(torch.tensor(right))
+    # return torch.nn.Parameter(torch.tensor(right))
+    return torch.nn.Parameter(right)
 
 def load_weights(gpt, gpt_hf):
 
@@ -65,8 +70,8 @@ tokenizer = tiktoken.get_encoding("gpt2")
 
 token_ids = generate(
     model=gpt,
-    idx=text_to_token_ids("What's wrong with you?", tokenizer),
-    max_new_tokens=50,
+    idx=text_to_token_ids("Tell me some fun things.", tokenizer),
+    max_new_tokens=300,
     context_size=BASE_CONFIG["ctx_len"],
     top_k=10,
     temperature=1.5

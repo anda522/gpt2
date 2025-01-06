@@ -26,7 +26,7 @@ model_configs = {
 # allowed model names
 model_names = {
     # "gpt2-small": "openai-community/gpt2",         # 124M
-    "gpt2-small": "weights",         # 124M
+    "gpt2-small": "weights/gpt2-small",         # 124M
     "gpt2-medium": "openai-community/gpt2-medium", # 355M
     "gpt2-large": "openai-community/gpt2-large",   # 774M
     "gpt2-xl": "openai-community/gpt2-xl"          # 1558M

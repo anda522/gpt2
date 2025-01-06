@@ -6,6 +6,9 @@ from config import GPT_CONFIG_124M
 from model import GPTModel
 from tools import calc_loss_batch, evaluate_model, generate_and_print_sample
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "4, 7"
+
 def train_model_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
                        eval_freq, eval_iter, start_context):
     # 初始化列表以跟踪损失和已观察到的token
@@ -41,7 +44,7 @@ def train_model_simple(model, train_loader, val_loader, optimizer, device, num_e
 
     return train_losses, val_losses, track_tokens_seen
 
-file_path = "the-verdict.txt"
+file_path = "data/the-verdict.txt"
 url = "https://github.com/rasbt/LLMs-from-scratch/main/ch02/01_main-chapter-code/the-verdict.txt"
 
 if not os.path.exists(file_path):

@@ -346,7 +346,7 @@ from transformers import GPT2Model
 # allowed model names
 model_names = {
     # "gpt2-small": "openai-community/gpt2",         # 124M
-    "gpt2-small": "weights",         # 124M
+    "gpt2-small": "weights/gpt2-small",         # 124M
     "gpt2-medium": "openai-community/gpt2-medium", # 355M
     "gpt2-large": "openai-community/gpt2-large",   # 774M
     "gpt2-xl": "openai-community/gpt2-xl"          # 1558M
@@ -378,7 +378,8 @@ BASE_CONFIG.update(model_configs[CHOOSE_MODEL])
 def assign_check(left, right):
     if left.shape != right.shape:
         raise ValueError(f"Shape mismatch. Left: {left.shape}, Right: {right.shape}")
-    return torch.nn.Parameter(torch.tensor(right))
+    # return torch.nn.Parameter(torch.tensor(right))
+    return torch.nn.Parameter(right)
 
 import numpy as np
 
@@ -419,25 +420,25 @@ def load_weights(gpt, gpt_hf):
         gpt.final_norm.shift = assign_check(gpt.final_norm.shift, d[f"ln_f.bias"])
         gpt.out_head.weight = assign_check(gpt.out_head.weight, d["wte.weight"])
 
-import torch
+# import torch
 
-gpt = GPTModel(BASE_CONFIG)
+# gpt = GPTModel(BASE_CONFIG)
 
-load_weights(gpt, gpt_hf)
-gpt.to(device)
+# load_weights(gpt, gpt_hf)
+# gpt.to(device)
 
-import tiktoken
-# torch.manual_seed(123)
+# import tiktoken
+# # torch.manual_seed(123)
 
-tokenizer = tiktoken.get_encoding("gpt2")
+# tokenizer = tiktoken.get_encoding("gpt2")
 
-token_ids = generate(
-    model=gpt,
-    idx=text_to_token_ids("What's wrong with you?", tokenizer),
-    max_new_tokens=250,
-    context_size=BASE_CONFIG["ctx_len"],
-    top_k=10,
-    temperature=1.5
-)
+# token_ids = generate(
+#     model=gpt,
+#     idx=text_to_token_ids("What's wrong with you?", tokenizer),
+#     max_new_tokens=250,
+#     context_size=BASE_CONFIG["ctx_len"],
+#     top_k=10,
+#     temperature=1.5
+# )
 
-print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
+# print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
