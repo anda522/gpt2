@@ -100,12 +100,13 @@ train_loader, val_loader, test_loader = get_dataloader()
 # print(len(train_loader), len(val_loader), len(test_loader))
 
 from transformers import GPT2Model
-from all_code import GPTModel, BASE_CONFIG, load_weights
+from all_code import GPTModel, BASE_CONFIG, load_weights, model_configs
 
 weights_path = "weights/gpt2-small"
 gpt_hf = GPT2Model.from_pretrained(weights_path)
 gpt_hf.eval()
 
+BASE_CONFIG.update(model_configs["gpt2-small"])
 model = GPTModel(BASE_CONFIG)
 load_weights(model, gpt_hf)
 model.eval()
